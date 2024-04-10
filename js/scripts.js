@@ -1,7 +1,7 @@
 /* Parágrafo onde será exibida a pergunta */
 const question = document.querySelector("#question");
 /* div onde será exibida as respostas */
-const answersBox = document.querySelector("#answersBox");
+const answersBox = document.querySelector("#answers-box");
 //elemento pai one serão exibidas as perguntas
 const quizContainer = document.querySelector("#quizz-container");
 //elemento pai onde serão exibidas as respostas
@@ -11,10 +11,13 @@ const letters = ['a', 'b', 'c', 'd'];
 let points = 0;
 let actualQuestion = 0;
 
+/* Perguntas */
+
+/* / Arquivo JSON dentro do JS (sim, dá pra fazer assim também!) */
 const questions = [
     /* Nó que representa uma pergunta */
     {
-        "question": "PHP foi desenvolvido para qual fim?",
+        "question": "PHP foi desenvolvido para qual finalidade?",
         "answers": [
             {
                 "answer": "back-end",
@@ -25,18 +28,22 @@ const questions = [
                 "correct": false
             },
             {
-                "answer": "sistena operacional ",
+                "answer": "front-end",
                 "correct": false
             },
             {
-                "answer": "Banco de dados",
+                "answer": "Sistema Operacional",
                 "correct": false
             },
+            {
+                "answer": "Banco de Dados",
+                "correct": false
+            }
         ]
-    },
 
-    {
-        "question": "Uma forma de declacar variável em Javascript ",
+    }, {
+
+        "question": "Uma forma de declarar variável em JavaScript:",
         "answers": [
             {
                 "answer": "$var",
@@ -53,31 +60,30 @@ const questions = [
             {
                 "answer": "#let",
                 "correct": false
-            },
+            }, {
+                "question": "Qual o seletor id no CSS",
+                "answers": [
+                    {
+                        "answer": "#",
+                        "correct": true
+                    },
+                    {
+                        "answer": ".",
+                        "correct": false
+                    },
+                    {
+                        "answer": "@",
+                        "correct": false
+                    },
+                    {
+                        "answer": "/",
+                        "correct": false
+                    },
+                ]
+            }
         ]
-    },
-    {
-        "question": "Qual o seletor de id no CSS",
-        "ansewers": [
-            {
-                "answer": "#",
-                "correct": true
-            },
-            {
-                "answer": ".",
-                "correct": false
-            },
-            {
-                "answer": "@",
-                "correct": false
-            },
-            {
-                "answer": "/",
-                "correct": false
-            },
-        ]
-    },
 
+    }
 ]
 
 //Substituição do layout pela primeira questão
@@ -90,7 +96,6 @@ function createQuestion(i) {
 
     //limpa questão anterior
     const oldButtons = answersBox.querySelectorAll("button");
-
     /* oldButtons = [button, button, button, button] */
 
     //percorre todas as posições do array limpando os botões que já estão na tela
@@ -109,22 +114,23 @@ function createQuestion(i) {
 
 
     //Insere alternativas 
-    question[i].ansewers.forEach(function (answer, i) {
+    questions[i].answers.forEach(function (answer, i) {
 
         //Altera texto do template 
-        const ansewerTemplate = document.querySelector(".answer-template").cloneNode(true);
+        const answerTemplate = document.querySelector(".answer-template").cloneNode(true);
 
         const letterBtn = answerTemplate.querySelector(".btn-letter");
         const answerText = answerTemplate.querySelector(".question-answer");
 
-        letterBtn.textContent = letters[i]
+        letterBtn.textContent = letters[i];
         answerText.textContent = answer['answer'];
 
-        answerTemplate.setAAtribute("correct-answer", answer["correct"]);
+        answerTemplate.setAttribute("correct-answer", answer["correct"]);
 
         //remove classe de hide e template do template 
-        answersTemplate.ClassList.remove("hide");
-        answersTemplate.ClassList.remove("answer-template");
+        answerTemplate.classList.remove("hide");
+        answerTemplate.classList.remove("answer-template");
+      
 
         //Insere template na tela 
         answersBox.appendChild(answerTemplate);
@@ -136,7 +142,7 @@ function createQuestion(i) {
     const buttons = answersBox.querySelectorAll("button");
 
     buttons.forEach(function (button) {
-        buttons.addEventListener("click", function () {
+        button.addEventListener("click", function () {
             checkAnswer(this, buttons);
         });
     });
